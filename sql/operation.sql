@@ -1,0 +1,2 @@
+CREATE TABLE Operation (id INT PRIMARY KEY, OperationType TEXT,IbanSource TEXT, IbanDest TEXT,montant FLOAT, dateOperation date );
+INSERT INTO Operation VALUES(12345,'VIREMENT','FR7630004000031234567890143','USD',1000.0,'2021-12-30');
