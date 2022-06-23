@@ -1,6 +1,8 @@
 package com.bank.bank.account.presentaion;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.Optional;
+
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -9,31 +11,27 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bank.bank.account.models.Account;
-import com.bank.bank.account.persistance.AccountDao;
+import com.bank.bank.account.services.AccountService;
+
+import lombok.AllArgsConstructor;
 
 @RestController
 @RequestMapping("/account")
+@AllArgsConstructor
 public class AccountApi {
-    @Autowired
-    AccountDao accountDao;
+    AccountService accountService;
 
     @GetMapping("/{iban}")
-    Account getAccount(@PathVariable(required = true) String iban) {
-        Account account = accountDao.findByIban(iban).orElse(null);
-        return account;
+    Optional<Account> getAccount(@PathVariable(required = true) String iban) {
+        return accountService.findByIban(iban);
     }
-    @PostMapping("/{iban}")
 
+    @PostMapping
     Account createAccount(@RequestBody Account account) {
-        return accountDao.save(account);
+        return accountService.createAccount(account);
     }
-    @GetMapping("/{iban}")
+    @DeleteMapping("/{iban}")
     void deleteAccount(@PathVariable(required = true) String iban) {
-        accountDao.deleteByIban(iban);
-    }
-    @GetMapping("/{iban}")
-    void updateAccount(@PathVariable(required = true) String iban,@PathVariable(required = true) String accountType,@PathVariable(required = true) double interest,@PathVariable(required = true) double expenses){
-        Account account=getAccount(iban);
-        accountDao.update( account,  accountType, interest, expenses);
+        accountService.deleteByIban(iban);
     }
 }

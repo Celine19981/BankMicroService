@@ -1,6 +1,5 @@
 package com.bank.bank.account.models;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -20,17 +19,11 @@ import lombok.ToString;
 @Entity
 public class Account {
     @Id
-    @Column
     String iban;
 
-    @Column
     String accountType;
     
-    @Column
     double interest;
 
-    @Column
     double expenses;
-
- 
 }
