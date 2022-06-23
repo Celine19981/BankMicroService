@@ -1,5 +1,6 @@
 package com.bank.bank.account.presentaion;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,6 +21,11 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class AccountApi {
     AccountService accountService;
+
+    @GetMapping
+    List<Account> getAllAccounts() {
+        return accountService.findAll();
+    }
 
     @GetMapping("/{iban}")
     Optional<Account> getAccount(@PathVariable(required = true) String iban) {
