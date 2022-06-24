@@ -1,8 +1,10 @@
 package com.bank.bank.operation.presentation;
 
-import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,8 +25,8 @@ public class OperationApi {
     OperationService operationService;
 
     @GetMapping
-    List<Operation> getAllOperation() {
-        return operationService.findAll();
+    Page<Operation> getAllOperation(@PageableDefault(page = 0, size = 20) Pageable page) {
+        return operationService.findAll(page);
     }
 
     @GetMapping("/{id}")
@@ -32,6 +34,13 @@ public class OperationApi {
         return operationService.findById(id);
     }
 
+/*
+    @GetMapping("/{destination}")
+    Optional<Operation> getOperation(@PathVariable(required = true) Account destination) {
+        return operationService.findByDestination(destination);
+    }
+
+     */
     @PostMapping
     Operation createOperation(@RequestBody Operation operation) {
         return operationService.saveOperation(operation);
@@ -42,4 +51,6 @@ public class OperationApi {
     void deleteOperation(@PathVariable(required = true) int id) {
         operationService.deleteById(id);
     }
+
+
 }

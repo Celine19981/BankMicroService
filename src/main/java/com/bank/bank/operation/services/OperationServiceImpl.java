@@ -1,8 +1,9 @@
 package com.bank.bank.operation.services;
 
-import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.bank.bank.operation.models.Operation;
@@ -31,8 +32,7 @@ public class OperationServiceImpl implements OperationService {
     }
 
     @Override
-    public List<Operation> findAll() {
-        return operationDao.findAll();
+    public Page<Operation> findAll(Pageable page) {
+        return operationDao.findAll(page);
     }
-    
 }
