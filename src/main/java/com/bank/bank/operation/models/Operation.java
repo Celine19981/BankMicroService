@@ -2,7 +2,6 @@ package com.bank.bank.operation.models;
 
 import java.sql.Timestamp;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -32,18 +31,16 @@ public class Operation {
     String type;
 
     @JsonIgnore
-    @Column(nullable=false)
     String source;
 
     @JsonIgnore
-    @Column(nullable=false)
     String destination;
 
-    @ManyToOne(optional=false)
+    @ManyToOne
     @JoinColumn(name = "source", updatable = false, insertable = false)
     Account sourceAccount;
 
-    @ManyToOne(optional=false)
+    @ManyToOne
     @JoinColumn(name = "destination", updatable = false, insertable = false)
     Account destinationAccount;
 
