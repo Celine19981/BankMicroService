@@ -15,12 +15,12 @@ import org.springframework.data.jpa.domain.Specification;
 
 public class SearchSpecification<T> implements Specification<T> {
     private static enum Operator {
-        EQ(Pattern.compile("^(.*)=(.*)$")),
+        EQ(Pattern.compile("^(.*)=([^%]*)$")),
         LT(Pattern.compile("^(.*)<(?!=)(.*)$")),
         GT(Pattern.compile("^(.*)>(?!=)(.*)$")),
         LTE(Pattern.compile("^(.*)<=(.*)$")),
         GTE(Pattern.compile("^(.*)>=(.*)$")),
-        LIKE(Pattern.compile("^(.*)%=(%?.*%?)$"));
+        LIKE(Pattern.compile("^(.*)=(.*%.*)$"));
 
         private Operator(Pattern pattern) {
             this.pattern = pattern;
@@ -40,8 +40,19 @@ public class SearchSpecification<T> implements Specification<T> {
             this.value = value;
         }
 
+    private Path<String> resolvePath(Root<T> root, String attribute) {
+        String[] parts = attribute.split("\\.");
+        
+        Path<String> path = root.get(parts[0]);
+        for(int i = 1; i < parts.length; i++) {
+            path.get(parts[i]);
+        }
+
+        return path;
+    }
+
         public Predicate getPredicate(Root<T> root, CriteriaBuilder cb) {
-            Path<String> path = root.get(attribute);
+            Path<String> path = resolvePath(root, attribute);
             switch (operator) {
                 case LT:
                     return cb.lessThan(path, value);
