@@ -1,3 +1,9 @@
+version: '3'
+
+networks:
+  db-network:
+    driver: bridge
+
 services:
   postgres:
     image: postgres:14.4
@@ -14,9 +20,6 @@ services:
     build: api
     container_name: api
     ports:
-      - 8080:8080
+      - "8080:8080"
     networks:
       - db-network
-
-networks:
-  db-network:
