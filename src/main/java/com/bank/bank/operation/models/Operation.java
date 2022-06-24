@@ -8,7 +8,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import com.bank.bank.account.models.Account;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -30,10 +29,8 @@ public class Operation {
 
     String type;
 
-    @JsonIgnore
     String source;
 
-    @JsonIgnore
     String destination;
 
     @ManyToOne
