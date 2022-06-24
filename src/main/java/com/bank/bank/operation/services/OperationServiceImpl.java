@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.bank.bank.core.models.SearchSpecification;
 import com.bank.bank.operation.models.Operation;
 import com.bank.bank.operation.persistance.OperationDao;
 
@@ -32,7 +33,7 @@ public class OperationServiceImpl implements OperationService {
     }
 
     @Override
-    public Page<Operation> findAll(Pageable page) {
-        return operationDao.findAll(page);
+    public Page<Operation> findAll(SearchSpecification<Operation> spec, Pageable page) {
+        return operationDao.findAll(spec, page);
     }
 }

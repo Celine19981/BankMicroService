@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bank.bank.core.models.SearchSpecification;
 import com.bank.bank.operation.models.Operation;
 import com.bank.bank.operation.services.OperationService;
 
@@ -25,8 +27,8 @@ public class OperationApi {
     OperationService operationService;
 
     @GetMapping
-    Page<Operation> getAllOperation(@PageableDefault(page = 0, size = 20) Pageable page) {
-        return operationService.findAll(page);
+    Page<Operation> getAllOperation(@RequestParam(defaultValue = "") String search, @PageableDefault(page = 0, size = 20) Pageable page) {
+        return operationService.findAll(new SearchSpecification<>(search), page);
     }
 
     @GetMapping("/{id}")
@@ -34,13 +36,6 @@ public class OperationApi {
         return operationService.findById(id);
     }
 
-/*
-    @GetMapping("/{destination}")
-    Optional<Operation> getOperation(@PathVariable(required = true) Account destination) {
-        return operationService.findByDestination(destination);
-    }
-
-     */
     @PostMapping
     Operation createOperation(@RequestBody Operation operation) {
         return operationService.saveOperation(operation);
